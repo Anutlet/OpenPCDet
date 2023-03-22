@@ -4,9 +4,9 @@ import os
 
 import numpy as np
 
-from ...ops.roiaware_pool3d import roiaware_pool3d_utils
-from ...utils import box_utils, common_utils
-from ..dataset import DatasetTemplate
+from pcdet.ops.roiaware_pool3d import roiaware_pool3d_utils
+from pcdet.utils import box_utils, common_utils
+from pcdet.datasets.dataset import DatasetTemplate
 
 
 class CustomDataset(DatasetTemplate):
@@ -67,6 +67,12 @@ class CustomDataset(DatasetTemplate):
         assert lidar_file.exists()
         point_features = np.load(lidar_file)
         return point_features
+    
+    def get_lidar_bin(self, idx):
+        lidar_file = self.root_path / 'bins' / ('%s.bin' % idx)
+        assert lidar_file.exists()
+        point_features = np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)
+        return point_features
 
     def set_split(self, split):
         super().__init__(
@@ -90,7 +96,7 @@ class CustomDataset(DatasetTemplate):
 
         info = copy.deepcopy(self.custom_infos[index])
         sample_idx = info['point_cloud']['lidar_idx']
-        points = self.get_lidar(sample_idx)
+        points = self.get_lidar_bin(sample_idx)
         input_dict = {
             'frame_id': self.sample_id_list[index],
             'points': points
@@ -180,7 +186,7 @@ class CustomDataset(DatasetTemplate):
             print('gt_database sample: %d/%d' % (k + 1, len(infos)))
             info = infos[k]
             sample_idx = info['point_cloud']['lidar_idx']
-            points = self.get_lidar(sample_idx)
+            points = self.get_lidar_bin(sample_idx)
             annos = info['annos']
             names = annos['name']
             gt_boxes = annos['gt_boxes_lidar']
@@ -278,6 +284,8 @@ if __name__ == '__main__':
         create_custom_infos(
             dataset_cfg=dataset_cfg,
             class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
-            data_path=ROOT_DIR / 'data' / 'custom',
-            save_path=ROOT_DIR / 'data' / 'custom',
+            # data_path=ROOT_DIR / 'data' / 'kitti',
+            # save_path=ROOT_DIR / 'data' / 'kitti'
+            data_path=Path(dataset_cfg.DATA_PATH),
+            save_path=Path(dataset_cfg.DATA_PATH)
         )
