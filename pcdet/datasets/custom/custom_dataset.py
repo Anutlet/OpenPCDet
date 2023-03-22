@@ -32,7 +32,8 @@ class CustomDataset(DatasetTemplate):
         self.map_class_to_kitti = self.dataset_cfg.MAP_CLASS_TO_KITTI
 
     def include_data(self, mode):
-        self.logger.info('Loading Custom dataset.')
+        if self.logger is not None:
+            self.logger.info('Loading Custom dataset.')
         custom_infos = []
 
         for info_path in self.dataset_cfg.INFO_PATH[mode]:
