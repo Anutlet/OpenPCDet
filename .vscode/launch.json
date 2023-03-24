@@ -1,0 +1,41 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "train_ppmh_custom",
+            "args": [
+                // "-m","torch.distributed.launch","--nproc_per_node=2",
+                // "--cfg_file" ,"./cfgs/nuscenes_models/cbgs_pp_multihead.yaml", 
+                // "--cfg_file" ,"/home/ayh/OpenPCDet/PCDet_an/tools/cfgs/custom_models/custom_pp_multihead.yaml", 
+                "--cfg_file" ,"/home/ayh/OpenPCDet/PCDet_an/tools/cfgs/custom_models/custom_pp_multihead.yaml", 
+                "--extra_tag","new_0320_pp_mh_test",
+                "--batch_size","4",
+                "--epochs","10"
+
+            ],
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${fileDirname}"
+        },
+        {
+            "name": "create_data_pkl",
+            "args": [
+                "create_custom_infos",
+                "/home/ayh/OpenPCDet/PCDet_an/tools/cfgs/dataset_configs/custom_dataset.yaml"
+            ],
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${fileDirname}"
+
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 import argparse
 import glob
 from pathlib import Path
-
+import pcl
 try:
     import open3d
     from visual_utils import open3d_vis_utils as V
@@ -48,6 +48,9 @@ class DemoDataset(DatasetTemplate):
             points = np.fromfile(self.sample_file_list[index], dtype=np.float32).reshape(-1, 4)
         elif self.ext == '.npy':
             points = np.load(self.sample_file_list[index])
+        elif self.ext == '.pcd':
+            points = pcl.load_XYZI(str(self.sample_file_list[index]))
+            points = points.to_array()
         else:
             raise NotImplementedError
 

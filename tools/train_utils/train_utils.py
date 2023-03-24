@@ -149,7 +149,7 @@ def train_one_epoch(model, optimizer, train_loader, model_func, lr_scheduler, ac
 
 def train_model(model, optimizer, train_loader, model_func, lr_scheduler, optim_cfg,
                 start_epoch, total_epochs, start_iter, rank, tb_log, ckpt_save_dir, train_sampler=None,
-                lr_warmup_scheduler=None, ckpt_save_interval=1, max_ckpt_save_num=50,
+                lr_warmup_scheduler=None, key_ckpt_save_interval=5,ckpt_save_interval=1, max_ckpt_save_num=50,
                 merge_all_iters_to_one_epoch=False, use_amp=False,
                 use_logger_to_record=False, logger=None, logger_iter_interval=None, ckpt_save_time_interval=None, show_gpu_stat=False):
     accumulated_iter = start_iter
@@ -197,8 +197,12 @@ def train_model(model, optimizer, train_loader, model_func, lr_scheduler, optim_
                 if ckpt_list.__len__() >= max_ckpt_save_num:
                     for cur_file_idx in range(0, len(ckpt_list) - max_ckpt_save_num + 1):
                         os.remove(ckpt_list[cur_file_idx])
+                                            
+                if trained_epoch % key_ckpt_save_interval == 0:
+                    ckpt_name = ckpt_save_dir / ('key_checkpoint_epoch_%d' % trained_epoch)
+                else:
+                    ckpt_name = ckpt_save_dir / ('checkpoint_epoch_%d' % trained_epoch)
 
-                ckpt_name = ckpt_save_dir / ('checkpoint_epoch_%d' % trained_epoch)
                 save_checkpoint(
                     checkpoint_state(model, optimizer, trained_epoch, accumulated_iter), filename=ckpt_name,
                 )
