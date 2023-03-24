@@ -150,7 +150,7 @@ class CustomDataset(DatasetTemplate):
         import concurrent.futures as futures
 
         def process_single_scene(sample_idx):
-            print('%s sample_idx: %s' % (self.split, sample_idx))
+            # print('%s sample_idx: %s' % (self.split, sample_idx))
             info = {}
             pc_info = {'num_features': num_features, 'lidar_idx': sample_idx}
             info['point_cloud'] = pc_info
@@ -158,6 +158,9 @@ class CustomDataset(DatasetTemplate):
             if has_label:
                 annotations = {}
                 gt_boxes_lidar, name = self.get_label(sample_idx)
+                if name.size == 0:
+                    print(sample_idx)
+                    return info 
                 annotations['name'] = name
                 annotations['gt_boxes_lidar'] = gt_boxes_lidar[:, :7]
                 info['annos'] = annotations

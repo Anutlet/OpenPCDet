@@ -11,9 +11,9 @@
                 // "--cfg_file" ,"./cfgs/nuscenes_models/cbgs_pp_multihead.yaml", 
                 // "--cfg_file" ,"/home/ayh/OpenPCDet/PCDet_an/tools/cfgs/custom_models/custom_pp_multihead.yaml", 
                 "--cfg_file" ,"/home/ayh/OpenPCDet/PCDet_an/tools/cfgs/custom_models/custom_pp_multihead.yaml", 
-                "--extra_tag","new_0320_pp_mh",
-                "--batch_size","2",
-                "--epochs","100"
+                "--extra_tag","new_0320_pp_mh_test",
+                "--batch_size","4",
+                "--epochs","10"
 
             ],
             "type": "python",
