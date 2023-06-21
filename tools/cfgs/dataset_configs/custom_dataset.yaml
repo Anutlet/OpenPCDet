@@ -1,7 +1,7 @@
 DATASET: 'CustomDataset'
 DATA_PATH: '/data/ayh/data_lidar/waymo/57_lidar_data'
 
-POINT_CLOUD_RANGE: [-51.2, -51.2, -2.0, 51.2, 51.2, 4.0]
+POINT_CLOUD_RANGE: [-51.2, -51.2, -3.0, 51.2, 51.2, 5.0]
 
 MAP_CLASS_TO_KITTI: {
     'Vehicle': 'Car',
@@ -9,7 +9,7 @@ MAP_CLASS_TO_KITTI: {
     'Barrier': 'Pedestrian',
     'Pedestrian': 'Pedestrian',
     'Cyclist': 'Cyclist',
-    'Traffic_cone': 'Cyclist'
+    'TrafficCone': 'Pedestrian'
 }
 
 DATA_SPLIT: {
@@ -37,17 +37,15 @@ DATA_AUGMENTOR:
               - custom_dbinfos_train.pkl
           PREPARE: {
              filter_by_min_points: [
-                 'car:5','truck:5', 'construction_vehicle:5', 'bus:5', 'trailer:5',
-                 'barrier:5', 'motorcycle:5', 'bicycle:5', 'pedestrian:5', 'traffic_cone:5'
+                 'vehicle:5','bigvehicle:5', 'barrier:5', 'cyclist:5', 'pedestrian:5', 'traffic_cone:5'
              ],
           }
 
           SAMPLE_GROUPS: [
-              'car:2','truck:3', 'construction_vehicle:7', 'bus:4', 'trailer:6',
-              'barrier:2', 'motorcycle:6', 'bicycle:6', 'pedestrian:2', 'traffic_cone:2'
+              'vehicle:2','bigvehicle:7', 'barrier:2', 'cyclist:6', 'pedestrian:2', 'traffic_cone:2'
           ]
 
-          NUM_POINT_FEATURES: 5
+          NUM_POINT_FEATURES: 4
           DATABASE_WITH_FAKELIDAR: False
           REMOVE_EXTRA_WIDTH: [0.0, 0.0, 0.0]
           LIMIT_WHOLE_SCENE: True

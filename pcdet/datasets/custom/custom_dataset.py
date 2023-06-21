@@ -158,9 +158,9 @@ class CustomDataset(DatasetTemplate):
             if has_label:
                 annotations = {}
                 gt_boxes_lidar, name = self.get_label(sample_idx)
-                if name.size == 0:
-                    print(sample_idx)
-                    return info 
+                # if name.size == 0:
+                #     print(sample_idx)
+                #     return info 
                 annotations['name'] = name
                 annotations['gt_boxes_lidar'] = gt_boxes_lidar[:, :7]
                 info['annos'] = annotations
@@ -287,7 +287,7 @@ if __name__ == '__main__':
         ROOT_DIR = (Path(__file__).resolve().parent / '../../../').resolve()
         create_custom_infos(
             dataset_cfg=dataset_cfg,
-            class_names=['Vehicle', 'Pedestrian', 'Cyclist'],
+            class_names=['Vehicle','BigVehicle', 'Barrier', 'Pedestrian','TrafficCone'],
             # data_path=ROOT_DIR / 'data' / 'kitti',
             # save_path=ROOT_DIR / 'data' / 'kitti'
             data_path=Path(dataset_cfg.DATA_PATH),

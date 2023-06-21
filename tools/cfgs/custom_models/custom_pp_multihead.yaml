@@ -1,9 +1,9 @@
-CLASS_NAMES: ['Vehicle', 'BigVehicle','Barrier', 'Cyclist', 'Pedestrian','Traffic_cone']
+CLASS_NAMES: ['Vehicle', 'BigVehicle','Barrier', 'Pedestrian','TrafficCone']
 
 DATA_CONFIG:
     _BASE_CONFIG_: /home/ayh/OpenPCDet/PCDet_an/tools/cfgs/dataset_configs/custom_dataset.yaml
 
-    POINT_CLOUD_RANGE: [-51.2, -51.2, -2.0, 51.2, 51.2, 4.0]
+    POINT_CLOUD_RANGE: [-51.2, -51.2, -4.0, 51.2, 51.2, 2.0]
 
     DATA_PROCESSOR:
         -   NAME: mask_points_and_boxes_outside_range
@@ -12,7 +12,7 @@ DATA_CONFIG:
         -   NAME: shuffle_points
             SHUFFLE_ENABLED: {
                 'train': True,
-                'test': True
+                'test': False
             }
 
         -   NAME: transform_points_to_voxels
@@ -87,16 +87,6 @@ MODEL:
                 'unmatched_threshold': 0.4
             },
             {
-                'class_name': Cyclist,
-                'anchor_sizes': [[1.70, 0.60, 1.28]],
-                'anchor_rotations': [0, 1.57],
-                'anchor_bottom_heights': [-1.18],
-                'align_center': False,
-                'feature_map_stride': 4,
-                'matched_threshold': 0.5,
-                'unmatched_threshold': 0.35
-            },
-            {
                 'class_name': Pedestrian,
                 'anchor_sizes': [[0.73, 0.67, 1.77]],
                 'anchor_rotations': [0, 1.57],
@@ -107,7 +97,7 @@ MODEL:
                 'unmatched_threshold': 0.4
             },
             {
-                'class_name': Traffic_cone,
+                'class_name': TrafficCone,
                 'anchor_sizes': [[0.41, 0.41, 1.07]],
                 'anchor_rotations': [0, 1.57],
                 'anchor_bottom_heights': [-1.285],
@@ -131,10 +121,10 @@ MODEL:
                 'HEAD_CLS_NAME': ['Barrier'],
             },
             {
-                'HEAD_CLS_NAME': ['Cyclist'],
+                'HEAD_CLS_NAME': ['Pedestrian'],
             },
             {
-                'HEAD_CLS_NAME': ['Pedestrian', 'Traffic_cone'],
+                'HEAD_CLS_NAME': ['TrafficCone'],
             },
         ]
         SEPARATE_REG_CONFIG: 
